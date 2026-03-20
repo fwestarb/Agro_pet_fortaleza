@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetCare Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --primary-dark: #EE5A5A;
+            --secondary: #FFE66D;
+            --accent: #FF8E53;
+            --bg: #FAFAFA;
+            --surface: #FFFFFF;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6B7280;
+            --text-muted: #9CA3AF;
+            --border: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius: 16px;
+            --radius-sm: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Animações suaves */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .animate-delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .animate-delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .animate-delay-3 { animation-delay: 0.3s; opacity: 0; }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            padding: 1rem 5%;
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 5% 5rem;
+            background: linear-gradient(135deg, #FFF5F5 0%, #FFFBEB 50%, #FFF7ED 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-content {
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--primary-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-primary);
+            border: 1.5px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Hero Image */
+        .hero-image-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 500px;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 30px;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+        }
+
+        .hero-image:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        .floating-card {
+            position: absolute;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .floating-card-1 {
+            bottom: 10%;
+            left: -10%;
+            animation-delay: 0.4s;
+            opacity: 0;
+        }
+
+        .floating-card-2 {
+            top: 10%;
+            right: -5%;
+            animation-delay: 0.6s;
+            opacity: 0;
+        }
+
+        .floating-card i {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .floating-card-text {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .floating-card-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 8rem 5%;
+            background: var(--bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            display: inline-block;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: transparent;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card.featured {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            transform: scale(1.05);
+        }
+
+        .service-card.featured::before {
+            display: none;
+        }
+
+        .service-card.featured .service-icon {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .service-card.featured .service-title,
+        .service-card.featured .service-description,
+        .service-card.featured .service-price {
+            color: white;
+        }
+
+        .service-card.featured .service-price-period {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .service-badge {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 142, 83, 0.1));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .service-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .service-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .service-features li i {
+            color: var(--primary);
+            font-size: 0.8rem;
+        }
+
+        .service-card.featured .service-features li i {
+            color: white;
+        }
+
+        .service-price-wrapper {
+            margin-top: auto;
+        }
+
+        .service-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .service-price-period {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .service-cta {
+            width: 100%;
+            margin-top: 1.5rem;
+            padding: 0.875rem;
+            background: var(--text-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .service-card.featured .service-cta {
+            background: white;
+            color: var(--primary);
+        }
+
+        .service-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Booking Section */
+        .booking {
+            padding: 8rem 5%;
+            background: white;
+        }
+
+        .booking-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .booking-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .booking-header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 2.5rem;
+            text-align: center;
+            color: white;
+        }
+
+        .booking-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .booking-header p {
+            opacity: 0.9;
+        }
+
+        .booking-body {
+            padding: 2.5rem;
+        }
+
+        /* Plan Selection */
+        .plan-selection {
+            margin-bottom: 2.5rem;
+        }
+
+        .plan-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .plan-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .plan-option {
+            padding: 1.5rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            background: white;
+        }
+
+        .plan-option:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .plan-option.selected {
+            border-color: var(--primary);
+            background: rgba(255, 107, 107, 0.05);
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+
+        .plan-option-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 142, 83, 0.1));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.25rem;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .plan-option.selected .plan-option-icon {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+        }
+
+        .plan-option-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .plan-option-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .plan-option.selected .plan-option-price {
+            color: var(--primary-dark);
+        }
+
+        /* Form Steps */
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            padding: 0.875rem 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .day-selector {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .day-option {
+            padding: 0.75rem 0.5rem;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .day-option:hover {
+            border-color: var(--primary);
+        }
+
+        .day-option.selected {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-color: transparent;
+        }
+
+        .info-box {
+            background: rgba(255, 230, 109, 0.2);
+            border: 1px solid rgba(255, 230, 109, 0.5);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .info-box i {
+            color: var(--accent);
+            font-size: 1.25rem;
+        }
+
+        .info-box-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .info-box-text strong {
+            color: var(--text-primary);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-full {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Confirmation Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: var(--transition);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10B981, #34D399);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .modal-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .confirmation-details {
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 1.5rem;
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Instagram Section */
+        .instagram {
+            padding: 6rem 5%;
+            background: linear-gradient(135deg, #FFF5F5 0%, #FFFBEB 100%);
+        }
+
+        .instagram-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .instagram-item {
+            aspect-ratio: 1;
+            background: white;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .instagram-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .instagram-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .instagram-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .instagram-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .instagram-item:hover .instagram-overlay {
+            opacity: 1;
+        }
+
+        .instagram-overlay i {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .instagram-button {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-primary);
+            color: white;
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-title {
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content {
+                order: 1;
+            }
+
+            .hero-image-wrapper {
+                order: 0;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero-description {
+                margin: 0 auto 2rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-image {
+                max-width: 350px;
+                height: 350px;
+            }
+
+            .floating-card {
+                display: none;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .service-card.featured {
+                transform: scale(1);
+                order: -1;
+            }
+
+            .plan-options {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .day-selector {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .instagram-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .day-selector {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .instagram-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .booking-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-paw"></i>
+                </div>
+                PetCare Premium
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#agendar">Agendar</a></li>
+                <li><a href="#instagram">Instagram</a></li>
+            </ul>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge animate-fade-in-up">
+                    <i class="fas fa-star"></i>
+                    Serviço Premium de Banho
+                </div>
+                <h1 class="animate-fade-in-up animate-delay-1">
+                    Seu pet merece o <span>melhor</span>
+                </h1>
+                <p class="hero-description animate-fade-in-up animate-delay-2">
+                    Banho profissional com busca e entrega em domicílio. 
+                    Cuidamos do seu amigo com carinho, produtos premium e toda a conveniência que você precisa.
+                </p>
+                <div class="hero-buttons animate-fade-in-up animate-delay-3">
+                    <a href="#agendar" class="btn btn-primary">
+                        Agendar Banho
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#servicos" class="btn btn-secondary">
+                        Ver Planos
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image-wrapper">
+                <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&q=80" 
+                     alt="Cachorro feliz" 
+                     class="hero-image">
+                <div class="floating-card floating-card-1">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <div class="floating-card-text">Atendimento</div>
+                        <div class="floating-card-sub">08h às 18h</div>
+                    </div>
+                </div>
+                <div class="floating-card floating-card-2">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <div class="floating-card-text">Busca em casa</div>
+                        <div class="floating-card-sub">Grátis</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="servicos">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Nossos Planos</span>
+                <h2 class="section-title">Escolha o melhor para seu pet</h2>
+                <p class="section-subtitle">
+                    Oferecemos opções flexíveis para atender às necessidades do seu pet e da sua rotina
+                </p>
+            </div>
+
+            <div class="services-grid">
+                <!-- Plano 1: Banho Simples -->
+                <div class="service-card" onclick="selectPlan('simple')">
+                    <div class="service-icon">
+                        <i class="fas fa-shower"></i>
+                    </div>
+                    <h3 class="service-title">Banho Simples</h3>
+                    <p class="service-description">
+                        Você traz seu pet para nossa unidade e retira depois do banho completo.
+                    </p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Banho completo</li>
+                        <li><i class="fas fa-check"></i> Secagem profissional</li>
+                        <li><i class="fas fa-check"></i> Produtos premium</li>
+                    </ul>
+                    <div class="service-price-wrapper">
+                        <div class="service-price">R$ 40</div>
+                        <div class="service-price-period">por banho</div>
+                    </div>
+                    <button class="service-cta">Escolher Plano</button>
+                </div>
+
+                <!-- Plano 2: Banho com Busca (Featured) -->
+                <div class="service-card featured" onclick="selectPlan('pickup')">
+                    <span class="service-badge">Mais Popular</span>
+                    <div class="service-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3 class="service-title">Banho com Busca</h3>
+                    <p class="service-description">
+                        Buscamos seu pet em casa às 08:00 e devolvemos limpinho e cheiroso.
+                    </p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Busca às 08:00</li>
+                        <li><i class="fas fa-check"></i> Banho completo</li>
+                        <li><i class="fas fa-check"></i> Entrega em casa</li>
+                    </ul>
+                    <div class="service-price-wrapper">
+                        <div class="service-price">R$ 45</div>
+                        <div class="service-price-period">por banho</div>
+                    </div>
+                    <button class="service-cta">Escolher Plano</button>
+                </div>
+
+                <!-- Plano 3: Plano Mensal -->
+                <div class="service-card" onclick="selectPlan('monthly')">
+                    <div class="service-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3 class="service-title">Plano Mensal</h3>
+                    <p class="service-description">
+                        Banho semanal com busca e entrega. Escolha o dia fixo da semana.
+                    </p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> 4 banhos/mês</li>
+                        <li><i class="fas fa-check"></i> Dia fixo semanal</li>
+                        <li><i class="fas fa-check"></i> Economia garantida</li>
+                    </ul>
+                    <div class="service-price-wrapper">
+                        <div class="service-price">R$ 45</div>
+                        <div class="service-price-period">por mês</div>
+                    </div>
+                    <button class="service-cta">Escolher Plano</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="booking" id="agendar">
+        <div class="booking-container">
+            <div class="section-header">
+                <span class="section-label">Agendamento</span>
+                <h2 class="section-title">Agende o banho do seu pet</h2>
+                <p class="section-subtitle">
+                    Preencha os dados abaixo e entraremos em contato para confirmar
+                </p>
+            </div>
+
+            <div class="booking-card">
+                <div class="booking-header">
+                    <h2>Novo Agendamento</h2>
+                    <p>Escolha o plano ideal para seu pet</p>
+                </div>
+
+                <div class="booking-body">
+                    <!-- Plan Selection -->
+                    <div class="plan-selection">
+                        <label class="plan-label">Selecione o plano</label>
+                        <div class="plan-options">
+                            <div class="plan-option" data-plan="simple" onclick="selectPlanOption('simple')">
+                                <div class="plan-option-icon">
+                                    <i class="fas fa-shower"></i>
+                                </div>
+                                <div class="plan-option-title">Banho Simples</div>
+                                <div class="plan-option-price">R$ 40</div>
+                            </div>
+                            <div class="plan-option" data-plan="pickup" onclick="selectPlanOption('pickup')">
+                                <div class="plan-option-icon">
+                                    <i class="fas fa-car"></i>
+                                </div>
+                                <div class="plan-option-title">Busca Única</div>
+                                <div class="plan-option-price">R$ 45</div>
+                            </div>
+                            <div class="plan-option" data-plan="monthly" onclick="selectPlanOption('monthly')">
+                                <div class="plan-option-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="plan-option-title">Plano Mensal</div>
+                                <div class="plan-option-price">R$ 45/mês</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Steps -->
+                    <form id="bookingForm">
+                        <!-- Common Fields -->
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Nome do Pet</label>
+                                <input type="text" class="form-input" id="petName" placeholder="Ex: Thor" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nome do Dono</label>
+                                <input type="text" class="form-input" id="ownerName" placeholder="Ex: João Silva" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Telefone</label>
+                                <input type="tel" class="form-input" id="phone" placeholder="(11) 99999-9999" required>
+                            </div>
+
+                            <!-- Conditional Fields -->
+                            <div class="form-group" id="dateField">
+                                <label class="form-label">Data do Banho</label>
+                                <input type="date" class="form-input" id="bathDate" required>
+                            </div>
+
+                            <div class="form-group full-width" id="addressField" style="display: none;">
+                                <label class="form-label">Endereço Completo</label>
+                                <input type="text" class="form-input" id="address" placeholder="Rua, número, bairro, cidade">
+                            </div>
+
+                            <div class="form-group full-width" id="dayField" style="display: none;">
+                                <label class="form-label">Dia fixo da semana</label>
+                                <div class="day-selector">
+                                    <div class="day-option" data-day="Segunda" onclick="selectDay(this)">Seg</div>
+                                    <div class="day-option" data-day="Terça" onclick="selectDay(this)">Ter</div>
+                                    <div class="day-option" data-day="Quarta" onclick="selectDay(this)">Qua</div>
+                                    <div class="day-option" data-day="Quinta" onclick="selectDay(this)">Qui</div>
+                                    <div class="day-option" data-day="Sexta" onclick="selectDay(this)">Sex</div>
+                                    <div class="day-option" data-day="Sábado" onclick="selectDay(this)">Sáb</div>
+                                    <div class="day-option" data-day="Domingo" onclick="selectDay(this)">Dom</div>
+                                </div>
+                                <input type="hidden" id="selectedDay">
+                            </div>
+                        </div>
+
+                        <div class="info-box" id="infoBox" style="display: none;">
+                            <i class="fas fa-info-circle"></i>
+                            <div class="info-box-text">
+                                Seu pet será buscado às <strong>08:00 da manhã</strong> no endereço informado.
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-full">
+                                Confirmar Agendamento
+                                <i class="fas fa-check"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instagram Section -->
+    <section class="instagram" id="instagram">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">@petcarepremium</span>
+                <h2 class="section-title">Siga-nos no Instagram</h2>
+                <p class="section-subtitle">
+                    Acompanhe o dia a dia dos pets que cuidamos
+                </p>
+            </div>
+
+            <div class="instagram-grid">
+                <div class="instagram-item">
+                    <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&q=80" alt="Pet">
+                    <div class="instagram-overlay">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                </div>
+                <div class="instagram-item">
+                    <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400&q=80" alt="Pet">
+                    <div class="instagram-overlay">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                </div>
+                <div class="instagram-item">
+                    <img src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=400&q=80" alt="Pet">
+                    <div class="instagram-overlay">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                </div>
+                <div class="instagram-item">
+                    <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&q=80" alt="Pet">
+                    <div class="instagram-overlay">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                </div>
+                <div class="instagram-item">
+                    <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400&q=80" alt="Pet">
+                    <div class="instagram-overlay">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                </div>
+                <div class="instagram-item">
+                    <img src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=400&q=80" alt="Pet">
+                    <div class="instagram-overlay">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instagram-button">
+                <a href="https://instagram.com" target="_blank" class="btn btn-secondary">
+                    <i class="fab fa-instagram"></i>
+                    Seguir no Instagram
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <i class="fas fa-paw"></i>
+                    </div>
+                    PetCare Premium
+                </div>
+                <p class="footer-description">
+                    Cuidamos do seu pet com amor, dedicação e os melhores produtos do mercado. 
+                    Banho e tosa com busca em domicílio.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-title">Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#servicos">Serviços</a></li>
+                    <li><a href="#agendar">Agendar</a></li>
+                    <li><a href="#instagram">Instagram</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-title">Serviços</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Banho Simples</a></li>
+                    <li><a href="#">Banho com Busca</a></li>
+                    <li><a href="#">Plano Mensal</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4 class="footer-title">Contato</h4>
+                <ul class="footer-links">
+                    <li><a href="tel:11999999999">(11) 99999-9999</a></li>
+                    <li><a href="mailto:oi@petcare.com">oi@petcare.com</a></li>
+                    <li><a href="#">São Paulo, SP</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 PetCare Premium. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="confirmationModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h3 class="modal-title">Agendamento Confirmado!</h3>
+            <p class="modal-subtitle">Entraremos em contato em breve para confirmar os detalhes.</p>
+
+            <div class="confirmation-details">
+                <div class="detail-row">
+                    <span class="detail-label">Plano</span>
+                    <span class="detail-value" id="confirmPlan">-</span>
+                </div>
+                <div class="detail-row" id="confirmDateRow">
+                    <span class="detail-label">Data</span>
+                    <span class="detail-value" id="confirmDate">-</span>
+                </div>
+                <div class="detail-row" id="confirmDayRow" style="display: none;">
+                    <span class="detail-label">Dia fixo</span>
+                    <span class="detail-value" id="confirmDay">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Horário de busca</span>
+                    <span class="detail-value">08:00</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Pet</span>
+                    <span class="detail-value" id="confirmPet">-</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Dono</span>
+                    <span class="detail-value" id="confirmOwner">-</span>
+                </div>
+            </div>
+
+            <button class="btn btn-primary btn-full" onclick="closeModal()">
+                Entendi!
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let selectedPlan = null;
+        let selectedDayValue = null;
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Plan Selection
+        function selectPlan(plan) {
+            selectPlanOption(plan);
+            document.getElementById('agendar').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function selectPlanOption(plan) {
+            selectedPlan = plan;
+
+            // Update visual selection
+            document.querySelectorAll('.plan-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.querySelector(`[data-plan="${plan}"]`).classList.add('selected');
+
+            // Show/hide fields based on plan
+            const addressField = document.getElementById('addressField');
+            const dateField = document.getElementById('dateField');
+            const dayField = document.getElementById('dayField');
+            const infoBox = document.getElementById('infoBox');
+            const addressInput = document.getElementById('address');
+            const dateInput = document.getElementById('bathDate');
+
+            // Reset
+            addressField.style.display = 'none';
+            dayField.style.display = 'none';
+            infoBox.style.display = 'none';
+            addressInput.required = false;
+            dateInput.required = false;
+
+            if (plan === 'simple') {
+                dateField.style.display = 'block';
+                dateInput.required = true;
+            } else if (plan === 'pickup') {
+                dateField.style.display = 'block';
+                addressField.style.display = 'block';
+                infoBox.style.display = 'flex';
+                addressInput.required = true;
+                dateInput.required = true;
+            } else if (plan === 'monthly') {
+                dayField.style.display = 'block';
+                addressField.style.display = 'block';
+                infoBox.style.display = 'flex';
+                addressInput.required = true;
+            }
+        }
+
+        // Day Selection
+        function selectDay(element) {
+            selectedDayValue = element.dataset.day;
+            document.getElementById('selectedDay').value = selectedDayValue;
+
+            document.querySelectorAll('.day-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        // Form Submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!selectedPlan) {
+                alert('Por favor, selecione um plano.');
+                return;
+            }
+
+            if (selectedPlan === 'monthly' && !selectedDayValue) {
+                alert('Por favor, selecione um dia da semana.');
+                return;
+            }
+
+            // Get values
+            const petName = document.getElementById('petName').value;
+            const ownerName = document.getElementById('ownerName').value;
+            const date = document.getElementById('bathDate').value;
+
+            // Set confirmation details
+            const planNames = {
+                'simple': 'Banho Simples',
+                'pickup': 'Banho com Busca',
+                'monthly': 'Plano Mensal'
+            };
+
+            document.getElementById('confirmPlan').textContent = planNames[selectedPlan];
+            document.getElementById('confirmPet').textContent = petName;
+            document.getElementById('confirmOwner').textContent = ownerName;
+
+            // Show/hide date or day row
+            const dateRow = document.getElementById('confirmDateRow');
+            const dayRow = document.getElementById('confirmDayRow');
+
+            if (selectedPlan === 'monthly') {
+                dateRow.style.display = 'none';
+                dayRow.style.display = 'flex';
+                document.getElementById('confirmDay').textContent = selectedDayValue + '-feira';
+            } else {
+                dateRow.style.display = 'flex';
+                dayRow.style.display = 'none';
+                document.getElementById('confirmDate').textContent = new Date(date).toLocaleDateString('pt-BR');
+            }
+
+            // Show modal
+            document.getElementById('confirmationModal').classList.add('active');
+
+            // Reset form
+            this.reset();
+            document.querySelectorAll('.plan-option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelectorAll('.day-option').forEach(opt => opt.classList.remove('selected'));
+            selectedPlan = null;
+            selectedDayValue = null;
+
+            // Reset fields visibility
+            document.getElementById('addressField').style.display = 'none';
+            document.getElementById('dayField').style.display = 'none';
+            document.getElementById('infoBox').style.display = 'none';
+        });
+
+        function closeModal() {
+            document.getElementById('confirmationModal').classList.remove('active');
+        }
+
+        // Close modal on overlay click
+        document.getElementById('confirmationModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.right = '0';
+                navLinks.style.background = 'rgba(255, 255, 255, 0.95)';
+                navLinks.style.backdropFilter = 'blur(20px)';
+                navLinks.style.padding = '1.5rem';
+                navLinks.style.boxShadow = '0 10px 40px rgba(0,0,0,0.1)';
+                navLinks.style.gap = '1rem';
+            }
+        }
+
+        // Set minimum date to today
+        document.getElementById('bathDate').min = new Date().toISOString().split('T')[0];
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements
+        document.querySelectorAll('.service-card, .instagram-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
